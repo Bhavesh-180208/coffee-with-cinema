@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee-with-Cinema</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="page1" class="page active">
+        <div class="landing-content">
+            <h1 class="hero-title">Coffee-with-Cinema</h1>
+            <p class="hero-subtitle">Turn your ideas into production-ready scripts.</p>
+            <button class="btn-primary" onclick="showLoginModal()">Start Creating</button>
+        </div>
+    </div>
+
+    <div id="loginModal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Director's Name</h2>
+            <input type="text" id="usernameInput" placeholder="Enter your name...">
+            <button class="btn-primary" onclick="submitName()">Enter Studio</button>
+        </div>
+    </div>
+
+    <div id="page2" class="page hidden">
+        <div class="dashboard-container">
+            
+            <nav class="sidebar">
+                <div class="logo">CwC Studio</div>
+                <div class="menu-item active" onclick="showSection('storyline')">1. Story Concept</div>
+                <div class="menu-item disabled" id="nav-screenplay" onclick="showSection('screenplay')">2. Screenplay</div>
+                <div class="menu-item disabled" id="nav-characters" onclick="showSection('characters')">3. Characters</div>
+                <div class="menu-item disabled" id="nav-sound" onclick="showSection('sound_design')">4. Sound Design</div>
+            </nav>
+
+            <main class="main-view">
+                <header>
+                    <span id="welcome-msg">Welcome, Director</span>
+                </header>
+
+                <div id="section-storyline" class="content-section">
+                    <h2>The Pitch</h2>
+                    <p>Describe your movie idea in a few sentences.</p>
+                    <textarea id="storyInput" placeholder="Enter a short description of the movie here"></textarea>
+                    <div class="action-area">
+                        <button id="generateBtn" class="btn-primary" onclick="generateContent()">Generate Assets</button>
+                        <div id="loadingSpinner" class="hidden">
+                            <span class="loader"></span> AI is writing...
+                        </div>
+                    </div>
+                </div>
+
+                <div id="section-screenplay" class="content-section hidden">
+                    <div class="section-header">
+                        <h2>Screenplay</h2>
+                        <div class="downloads">
+                            <a href="/download/txt/screenplay" target="_blank">TXT</a>
+                            <a href="/download/pdf/screenplay" target="_blank">PDF</a>
+                            <a href="/download/docx/screenplay" target="_blank">DOCX</a>
+                        </div>
+                    </div>
+                    <div class="output-box" id="output-screenplay"></div>
+                </div>
+
+                <div id="section-characters" class="content-section hidden">
+                    <div class="section-header">
+                        <h2>Character Profiles</h2>
+                        <div class="downloads">
+                            <a href="/download/txt/characters" target="_blank">TXT</a>
+                            <a href="/download/pdf/characters" target="_blank">PDF</a>
+                            <a href="/download/docx/characters" target="_blank">DOCX</a>
+                        </div>
+                    </div>
+                    <div class="output-box" id="output-characters"></div>
+                </div>
+
+                <div id="section-sound_design" class="content-section hidden">
+                    <div class="section-header">
+                        <h2>Sound Design</h2>
+                        <div class="downloads">
+                            <a href="/download/txt/sound_design" target="_blank">TXT</a>
+                            <a href="/download/pdf/sound_design" target="_blank">PDF</a>
+                            <a href="/download/docx/sound_design" target="_blank">DOCX</a>
+                        </div>
+                    </div>
+                    <div class="output-box" id="output-sound_design"></div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
