@@ -54,8 +54,11 @@ function showSection(sectionId) {
 
     // Update Sidebar highlighting
     document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
-    // Note: detailed sidebar logic allows simplified matching here
-    event.target.classList.add('active'); 
+    
+    // Safely handle the active class toggling
+    if (event && event.target && event.target.classList.contains('menu-item')) {
+        event.target.classList.add('active'); 
+    }
 }
 
 // --- AI Generation Logic ---
@@ -80,14 +83,13 @@ function generateContent() {
     })
     .then(res => res.json())
     .then(data => {
-        // Reset UI
-        btn.disabled = false;
-        btn.innerText = "Generate Assets";
         spinner.classList.add('hidden');
 
-        // ... inside .then(data => { ...
-
         if (data.success) {
+            // 1. Change Button Text
+            btn.innerText = "Generated";
+            btn.disabled = false;
+
             // THE PAINTER FUNCTION: Adds color to plain text
             const paintScript = (text) => {
                 if (!text) return "";
@@ -105,17 +107,35 @@ function generateContent() {
             document.getElementById('output-characters').innerHTML = data.data.characters.replace(/\n/g, "<br>");
             document.getElementById('output-sound_design').innerHTML = data.data.sound_design.replace(/\n/g, "<br>");
 
-            // Unlock UI...
+            // Unlock UI Sidebar items
              document.getElementById('nav-screenplay').classList.remove('disabled');
              document.getElementById('nav-characters').classList.remove('disabled');
              document.getElementById('nav-sound').classList.remove('disabled');
+
+             // 2. Pop up Alert
+             alert("Script is generated");
+
+             // 3. Switch to Screenplay Tab automatically
+             // Hide the Storyline section
+             document.getElementById('section-storyline').classList.add('hidden');
+             // Show the Screenplay section
+             document.getElementById('section-screenplay').classList.remove('hidden');
+             
+             // Update Sidebar Active Highlight
+             document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
+             document.getElementById('nav-screenplay').classList.add('active');
+
         } else {
+            // Reset button text on error
+            btn.innerText = "Generate Assets";
+            btn.disabled = false;
             alert("Error: " + (data.error || "Unknown error occurred"));
         }
     })
     .catch(err => {
         console.error(err);
         btn.disabled = false;
+        btn.innerText = "Generate Assets";
         spinner.classList.add('hidden');
         alert("Failed to connect to the server.");
     });
